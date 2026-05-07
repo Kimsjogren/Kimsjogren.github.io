@@ -370,8 +370,8 @@ p {
 }
 
 .hero-logo-img {
-  width: 240px;
-  height: 240px;
+  width: 260px;
+  height: 260px;
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--border-gold);
