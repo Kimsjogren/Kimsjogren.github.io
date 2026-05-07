@@ -631,14 +631,21 @@ p {
 }
 
 .service-card p {
-  padding-top: 16px;
+  padding-top: 0;
   padding-bottom: 4px;
   font-size: 0.875rem;
-  flex: 1;
+}
+
+.service-card .service-name {
+  padding: 16px 20px 6px;
+  font-family: var(--font-serif);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
 }
 
 .service-card .service-tag {
-  margin: 0 20px 20px;
+  margin: 8px 20px 20px;
   align-self: flex-start;
 }
 
