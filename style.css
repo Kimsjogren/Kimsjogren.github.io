@@ -636,6 +636,15 @@ p {
   font-size: 0.875rem;
 }
 
+.service-card .service-price {
+  padding: 0 20px;
+  margin-top: 2px;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--gold-light);
+}
+
 .service-card .service-name {
   padding: 16px 20px 6px;
   font-family: var(--font-serif);
