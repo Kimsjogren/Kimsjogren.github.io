@@ -922,24 +922,23 @@ p {
 
 .gallery-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: auto auto;
-  gap: 16px;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 180px;
+  grid-auto-flow: dense;
+  gap: 10px;
   margin: 16px 0 32px;
 }
 
 .gallery-item {
   border-radius: var(--radius-lg);
   overflow: hidden;
-  aspect-ratio: 4/3;
-  border: 1px solid var(--border);
+  border: 1px solid rgba(192, 192, 192, 0.18);
   transition: all var(--transition);
   cursor: pointer;
 }
 
 .gallery-item--tall {
   grid-row: span 2;
-  aspect-ratio: auto;
 }
 
 .gallery-item--wide {
@@ -947,7 +946,7 @@ p {
 }
 
 .gallery-item:hover {
-  border-color: var(--border-gold);
+  border-color: rgba(192, 192, 192, 0.55);
   transform: scale(1.01);
 }
 
@@ -963,7 +962,101 @@ p {
   transform: scale(1.06);
 }
 
-.gallery-note {
+/* ---- Lightbox ---- */
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.92);
+  z-index: 2000;
+  align-items: center;
+  justify-content: center;
+  cursor: zoom-out;
+}
+
+.lightbox.active {
+  display: flex;
+}
+
+.lightbox__img {
+  max-width: 92vw;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 6px;
+  box-shadow: 0 8px 48px rgba(0,0,0,0.7);
+  cursor: default;
+  animation: lbFadeIn 0.2s ease;
+}
+
+.lightbox__video {
+  display: none;
+  max-width: 92vw;
+  max-height: 90vh;
+  border-radius: 6px;
+  box-shadow: 0 8px 48px rgba(0,0,0,0.7);
+  animation: lbFadeIn 0.2s ease;
+  cursor: default;
+}
+
+.lightbox.is-video .lightbox__img  { display: none; }
+.lightbox.is-video .lightbox__video { display: block; }
+
+@keyframes lbFadeIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.lightbox__close {
+  position: fixed;
+  top: 18px;
+  right: 24px;
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 2.4rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+  z-index: 2001;
+}
+
+.lightbox__close:hover {
+  opacity: 1;
+}
+
+.gallery-item video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.45s ease;
+}
+
+.gallery-item:hover video {
+  transform: scale(1.06);
+}
+
+.gallery-item--video {
+  position: relative;
+}
+
+.gallery-play {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  color: rgba(255,255,255,0.85);
+  pointer-events: none;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.7);
+  transition: opacity 0.2s;
+}
+
+.gallery-item--video:hover .gallery-play {
+  opacity: 0;
+}
   text-align: center;
   font-size: 0.875rem;
   color: var(--text-muted);
@@ -1075,13 +1168,15 @@ p {
 .contact-item {
   display: flex;
   gap: 16px;
-  align-items: flex-start;
+  align-items: center;
 }
 
 .contact-icon {
   font-size: 1.25rem;
   flex-shrink: 0;
-  margin-top: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .contact-item strong {
@@ -1136,7 +1231,7 @@ p {
   display: flex;
   flex-direction: column;
   gap: 32px;
-  align-items: flex-start;
+  align-items: center;
   padding-bottom: 40px;
   border-bottom: 1px solid var(--border);
 }
@@ -1144,6 +1239,7 @@ p {
 .footer-logo {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 6px;
 }
 

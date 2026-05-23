@@ -2,6 +2,49 @@
    SHAVE CAT BARBERSHOP – JAVASCRIPT
 ========================================== */
 
+// ---- Lightbox ----
+const lightbox      = document.getElementById('lightbox');
+const lightboxImg   = document.getElementById('lightboxImg');
+const lightboxVideo = document.getElementById('lightboxVideo');
+const lightboxClose = document.getElementById('lightboxClose');
+
+document.querySelector('.gallery-grid').addEventListener('click', e => {
+  const item = e.target.closest('.gallery-item');
+  if (!item) return;
+
+  const vid = item.querySelector('video');
+  const img = item.querySelector('img');
+
+  if (vid) {
+    const src = vid.querySelector('source')?.src || '';
+    lightboxVideo.src = src;
+    lightbox.classList.add('active', 'is-video');
+  } else if (img) {
+    lightboxImg.src = img.src;
+    lightboxImg.alt = img.alt;
+    lightbox.classList.add('active');
+    lightbox.classList.remove('is-video');
+  }
+  document.body.style.overflow = 'hidden';
+});
+
+function closeLightbox() {
+  lightbox.classList.remove('active', 'is-video');
+  lightboxImg.src = '';
+  lightboxVideo.src = '';
+  document.body.style.overflow = '';
+}
+
+lightboxClose.addEventListener('click', closeLightbox);
+
+lightbox.addEventListener('click', e => {
+  if (e.target === lightbox) closeLightbox();
+});
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeLightbox();
+});
+
 // ---- Navbar scroll effect ----
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
