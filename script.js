@@ -91,3 +91,126 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     window.scrollTo({ top, behavior: 'smooth' });
   });
 });
+
+// ---- Service cards modal with detailed prices ----
+const serviceCards = document.querySelectorAll('.service-card[data-service]');
+const serviceModal = document.getElementById('serviceModal');
+const serviceModalBackdrop = document.getElementById('serviceModalBackdrop');
+const serviceModalClose = document.getElementById('serviceModalClose');
+const serviceModalTitle = document.getElementById('serviceModalTitle');
+const serviceModalList = document.getElementById('serviceModalList');
+
+const servicePrices = {
+  herrklippning: {
+    title: 'Herrklippning',
+    items: [
+      ['Herrklippning', '300 kr'],
+      ['Pensionär herr (65+)', '250 kr'],
+      ['Barnklippning (upp till 12 år)', '250 kr']
+    ]
+  },
+  fade: {
+    title: 'Skinfade / Fade',
+    items: [
+      ['Skinfade / Fade', '300 kr'],
+      ['Herrklippning + skäggformning', '450 kr']
+    ]
+  },
+  rakning: {
+    title: 'Rakning',
+    items: [
+      ['Traditionell rakning', 'Från 250 kr'],
+      ['Vaxning näsa och öron', '100 kr']
+    ]
+  },
+  skagg: {
+    title: 'Skäggtrimning',
+    items: [
+      ['Skägg- och mustaschtrim', '250 kr'],
+      ['Herrklippning + formning av skägg', '450 kr']
+    ]
+  },
+  damklippning: {
+    title: 'Damklippning',
+    items: [
+      ['Damklippning kort hår', '300 kr'],
+      ['Damklippning långt hår', '350 kr'],
+      ['Tvätt och fön', 'Från 250 kr']
+    ]
+  },
+  bryntrad: {
+    title: 'Bryn och trådning',
+    items: [
+      ['Färgning av ögonfransar/ögonbryn', '150 kr'],
+      ['Tråd ögonbryn', '150 kr'],
+      ['Tråd hela ansiktet + ögonbryn', '250 kr']
+    ]
+  },
+  fargning: {
+    title: 'Färgning och behandling',
+    items: [
+      ['Utväxtfärgning', 'Från 600 kr'],
+      ['Färgning + klippning (kort)', 'Från 900 kr'],
+      ['Färgning + klippning (mellanlångt)', 'Från 1000 kr'],
+      ['Färgning + klippning (långt)', 'Från 1100 kr'],
+      ['Keratinbehandling + klippning (kort)', 'Från 1400 kr'],
+      ['Keratinbehandling + klippning (långt)', 'Från 1500 kr']
+    ]
+  },
+  paket: {
+    title: 'Paket',
+    items: [
+      ['Herrklippning + formning av skägg', '450 kr']
+    ]
+  }
+};
+
+const openServiceModal = (serviceKey) => {
+  const data = servicePrices[serviceKey];
+  if (!data || !serviceModal) return;
+
+  serviceModalTitle.textContent = data.title;
+  serviceModalList.innerHTML = '';
+
+  data.items.forEach(([name, price]) => {
+    const li = document.createElement('li');
+    const label = document.createElement('span');
+    const value = document.createElement('strong');
+    label.textContent = name;
+    value.textContent = price;
+    li.appendChild(label);
+    li.appendChild(value);
+    serviceModalList.appendChild(li);
+  });
+
+  serviceModal.classList.add('open');
+  serviceModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+};
+
+const closeServiceModal = () => {
+  if (!serviceModal) return;
+  serviceModal.classList.remove('open');
+  serviceModal.setAttribute('aria-hidden', 'true');
+  document.body.style.overflow = '';
+};
+
+serviceCards.forEach((card) => {
+  card.addEventListener('click', () => {
+    openServiceModal(card.dataset.service);
+  });
+});
+
+if (serviceModalClose) {
+  serviceModalClose.addEventListener('click', closeServiceModal);
+}
+
+if (serviceModalBackdrop) {
+  serviceModalBackdrop.addEventListener('click', closeServiceModal);
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && serviceModal && serviceModal.classList.contains('open')) {
+    closeServiceModal();
+  }
+});
