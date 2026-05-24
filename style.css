@@ -581,7 +581,7 @@ p {
 
 .card-addr {
   font-size: 0.78rem !important;
-  letter-spacing: 0.03em !important;
+  letter-spacing: 0.03em;
   text-transform: none !important;
   color: var(--text-muted) !important;
   margin-top: 8px !important;
@@ -646,6 +646,7 @@ p {
   padding-top: 0;
   padding-bottom: 4px;
   font-size: 0.875rem;
+  line-height: 1.7;
 }
 
 .service-card .service-price {
@@ -724,11 +725,6 @@ p {
   font-weight: 700;
   color: var(--text-primary);
   margin-bottom: 12px;
-}
-
-.service-card p {
-  font-size: 0.875rem;
-  line-height: 1.7;
 }
 
 .service-tag {
@@ -954,6 +950,7 @@ p {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: top center;
   display: block;
   transition: transform 0.45s ease;
 }
@@ -1057,6 +1054,8 @@ p {
 .gallery-item--video:hover .gallery-play {
   opacity: 0;
 }
+
+.gallery-note {
   text-align: center;
   font-size: 0.875rem;
   color: var(--text-muted);
