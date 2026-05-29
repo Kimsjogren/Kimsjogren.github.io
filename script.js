@@ -8,10 +8,7 @@ const lightboxImg   = document.getElementById('lightboxImg');
 const lightboxVideo = document.getElementById('lightboxVideo');
 const lightboxClose = document.getElementById('lightboxClose');
 
-document.querySelector('.gallery-grid').addEventListener('click', e => {
-  const item = e.target.closest('.gallery-item');
-  if (!item) return;
-
+function openLightboxFromItem(item) {
   const vid = item.querySelector('video');
   const img = item.querySelector('img');
 
@@ -26,13 +23,27 @@ document.querySelector('.gallery-grid').addEventListener('click', e => {
     lightbox.classList.remove('is-video');
   }
   document.body.style.overflow = 'hidden';
+}
+
+// Delegera klick på alla gallery-grids (featured + album-modal-grid)
+document.addEventListener('click', e => {
+  // ignorera klick på album-card (det öppnar album-modal istället)
+  if (e.target.closest('.album-card')) return;
+  const item = e.target.closest('.gallery-item');
+  if (!item) return;
+  // Bara om item ligger i en gallery-grid eller album-modal__grid
+  if (!item.closest('.gallery-grid, .album-modal__grid')) return;
+  openLightboxFromItem(item);
 });
 
 function closeLightbox() {
   lightbox.classList.remove('active', 'is-video');
   lightboxImg.src = '';
   lightboxVideo.src = '';
-  document.body.style.overflow = '';
+  // Behåll body-overflow om album-modal fortfarande är öppen
+  if (!document.getElementById('albumModal')?.classList.contains('open')) {
+    document.body.style.overflow = '';
+  }
 }
 
 lightboxClose.addEventListener('click', closeLightbox);
@@ -42,7 +53,56 @@ lightbox.addEventListener('click', e => {
 });
 
 document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'Escape' && lightbox.classList.contains('active')) closeLightbox();
+});
+
+// ---- Album Modal ----
+const albumModal       = document.getElementById('albumModal');
+const albumModalGrid   = document.getElementById('albumModalGrid');
+const albumModalTitle  = document.getElementById('albumModalTitle');
+const albumModalClose  = document.getElementById('albumModalClose');
+const albumModalBackdrop = document.getElementById('albumModalBackdrop');
+
+const albumTitles = {
+  bilder: 'Bilder',
+  videor: 'Videor'
+};
+
+function openAlbum(key) {
+  const source = document.getElementById('album-data-' + key);
+  if (!source || !albumModal) return;
+  albumModalTitle.textContent = albumTitles[key] || 'Album';
+  albumModalGrid.innerHTML = '';
+  // Klona barnen så originalen ligger kvar
+  Array.from(source.children).forEach(node => {
+    albumModalGrid.appendChild(node.cloneNode(true));
+  });
+  albumModal.classList.add('open');
+  albumModal.setAttribute('aria-hidden', 'false');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeAlbum() {
+  if (!albumModal) return;
+  albumModal.classList.remove('open');
+  albumModal.setAttribute('aria-hidden', 'true');
+  albumModalGrid.innerHTML = '';
+  if (!lightbox.classList.contains('active')) {
+    document.body.style.overflow = '';
+  }
+}
+
+document.querySelectorAll('.album-card').forEach(card => {
+  card.addEventListener('click', () => openAlbum(card.dataset.album));
+});
+
+if (albumModalClose) albumModalClose.addEventListener('click', closeAlbum);
+if (albumModalBackdrop) albumModalBackdrop.addEventListener('click', closeAlbum);
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && albumModal && albumModal.classList.contains('open') && !lightbox.classList.contains('active')) {
+    closeAlbum();
+  }
 });
 
 // ---- Navbar scroll effect ----
