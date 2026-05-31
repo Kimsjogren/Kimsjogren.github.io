@@ -1302,6 +1302,74 @@ p {
   color: var(--text-muted);
 }
 
+.gallery-social {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  margin-top: 36px;
+  padding: 0 20px;
+}
+
+.gallery-social__rule {
+  flex: 1;
+  max-width: 120px;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--border, rgba(255,255,255,0.18)), transparent);
+}
+
+.gallery-social__text {
+  font-family: var(--font-serif, 'Playfair Display', serif);
+  font-style: italic;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  color: var(--text-muted);
+  margin: 0;
+  white-space: nowrap;
+}
+
+.gallery-social__links {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.social-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px solid var(--border, rgba(255,255,255,0.15));
+  border-radius: 999px;
+  color: var(--text-primary, #f5f5f5);
+  text-decoration: none;
+  font-size: 0.85rem;
+  letter-spacing: 0.03em;
+  transition: border-color 0.25s ease, color 0.25s ease, background-color 0.25s ease, transform 0.25s ease;
+}
+
+.social-pill:hover {
+  border-color: var(--gold, #c0a060);
+  color: var(--gold, #c0a060);
+  background: rgba(192, 160, 96, 0.08);
+  transform: translateY(-1px);
+}
+
+.social-pill svg {
+  flex-shrink: 0;
+}
+
+@media (max-width: 640px) {
+  .gallery-social {
+    flex-direction: column;
+    gap: 14px;
+  }
+  .gallery-social__rule {
+    display: none;
+  }
+}
+
 /* ========== BOOKING ========== */
 .booking-section {
   position: relative;
