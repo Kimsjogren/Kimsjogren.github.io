@@ -941,7 +941,8 @@ p {
 .gallery-grid--featured .gallery-item--wide.gallery-item--tall {
   grid-column: span 3;
   grid-row: auto;
-  aspect-ratio: 3 / 2;
+  aspect-ratio: 16 / 9;
+  max-height: 70vh;
 }
 
 .gallery-grid--featured .gallery-item img,
@@ -951,7 +952,8 @@ p {
 
 .gallery-grid--featured .gallery-item--wide.gallery-item--tall img,
 .gallery-grid--featured .gallery-item--wide.gallery-item--tall video {
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center 35%;
   background: #000;
 }
 
