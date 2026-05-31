@@ -1105,7 +1105,7 @@ p {
 
 .album-modal__panel {
   position: relative;
-  width: min(1100px, 100%);
+  width: min(1200px, 100%);
   max-height: 90vh;
   background: #0f0f0f;
   border: 1px solid rgba(192,192,192,0.18);
@@ -1146,30 +1146,27 @@ p {
 
 .album-modal__grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  padding: 20px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  padding: 24px;
   overflow-y: auto;
 }
 
 .album-modal__grid .gallery-item {
   aspect-ratio: 1 / 1;
-  border-radius: var(--radius-md, 8px);
+  border-radius: var(--radius-md, 10px);
   overflow: hidden;
   border: 1px solid rgba(192,192,192,0.15);
   cursor: pointer;
   position: relative;
-  transition: transform 0.25s ease, border-color 0.25s ease;
-}
-
-/* Videor är porträtt – ge dem 9:16 så de inte beskärs hårt */
-.album-modal__grid .gallery-item--video {
-  aspect-ratio: 9 / 16;
+  background: #000;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .album-modal__grid .gallery-item:hover {
-  transform: scale(1.03);
-  border-color: rgba(192,192,192,0.5);
+  transform: translateY(-2px);
+  border-color: rgba(192,192,192,0.55);
+  box-shadow: 0 10px 24px rgba(0,0,0,0.5);
 }
 
 .album-modal__grid .gallery-item img,
@@ -1177,7 +1174,7 @@ p {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: top center;
+  object-position: center center;
   display: block;
 }
 
@@ -1195,10 +1192,10 @@ p {
 }
 
 @media (max-width: 800px) {
-  .album-modal__grid { grid-template-columns: repeat(3, 1fr); }
+  .album-modal__grid { grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 16px; }
 }
 @media (max-width: 500px) {
-  .album-modal__grid { grid-template-columns: repeat(2, 1fr); }
+  .album-modal__grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
 }
 
 /* ---- Lightbox ---- */
