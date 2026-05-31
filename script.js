@@ -108,6 +108,28 @@ document.addEventListener('keydown', e => {
   }
 });
 
+// ---- Slumpa de 3 roterande "featured"-bilderna vid varje besök ----
+(function rotateFeatured() {
+  const slots = document.querySelectorAll('.featured-rotate img');
+  const pool  = document.querySelectorAll('#album-data-bilder img');
+  if (!slots.length || !pool.length) return;
+
+  // Plocka ut alla källor och filtrera bort hero-bilden så den inte dubbleras
+  const heroSrc = document.querySelector('.gallery-grid--featured .gallery-item--wide.gallery-item--tall img')?.src || '';
+  const all = Array.from(pool).map(i => i.src).filter(s => s !== heroSrc);
+
+  // Shuffle (Fisher-Yates)
+  for (let i = all.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [all[i], all[j]] = [all[j], all[i]];
+  }
+
+  slots.forEach((img, idx) => {
+    const next = all[idx];
+    if (next) img.src = next;
+  });
+})();
+
 // ---- Navbar scroll effect ----
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
