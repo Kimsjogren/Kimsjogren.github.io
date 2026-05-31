@@ -1162,6 +1162,11 @@ p {
   transition: transform 0.25s ease, border-color 0.25s ease;
 }
 
+/* Videor är porträtt – ge dem 9:16 så de inte beskärs hårt */
+.album-modal__grid .gallery-item--video {
+  aspect-ratio: 9 / 16;
+}
+
 .album-modal__grid .gallery-item:hover {
   transform: scale(1.03);
   border-color: rgba(192,192,192,0.5);

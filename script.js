@@ -16,6 +16,9 @@ function openLightboxFromItem(item) {
     const src = vid.querySelector('source')?.src || '';
     lightboxVideo.src = src;
     lightbox.classList.add('active', 'is-video');
+    // Auto-play direkt
+    const p = lightboxVideo.play();
+    if (p && typeof p.catch === 'function') p.catch(() => {});
   } else if (img) {
     lightboxImg.src = img.src;
     lightboxImg.alt = img.alt;
