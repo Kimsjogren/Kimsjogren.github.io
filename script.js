@@ -2,6 +2,110 @@
    SHAVE CAT BARBERSHOP – JAVASCRIPT
 ========================================== */
 
+// ---- Language switcher ----
+const languageSelect = document.getElementById('languageSelect');
+const languageLabel = document.querySelector('[data-language-label]');
+const originalText = new WeakMap();
+
+const translations = {
+  'Frisör · Skarpnäck': ['Hair salon · Skarpnäck', 'صالون شعر · سكارَبناك'],
+  'Hem': ['Home', 'الرئيسية'], 'Om oss': ['About us', 'من نحن'],
+  'Tjänster': ['Services', 'الخدمات'], 'Galleri': ['Gallery', 'المعرض'],
+  'Kontakt': ['Contact', 'اتصل بنا'], 'Språk': ['Language', 'اللغة'],
+  'Svensk Hårstylist · Skarpnäck': ['Swedish Hairstylist · Skarpnäck', 'مصفف شعر سويدي · سكارَبناك'],
+  'Dam & Herr · Klippning · Rakning · Skäggtrimning': ['Women & Men · Haircuts · Shaving · Beard trims', 'نساء ورجال · قص شعر · حلاقة · تهذيب اللحية'],
+  'Våra tjänster': ['Our services', 'خدماتنا'], 'Kontakta oss': ['Contact us', 'تواصل معنا'],
+  '4,7 – 59 recensioner på Google': ['4.7 – 59 reviews on Google', '4.7 – 59 تقييماً على Google'],
+  'Passion för': ['Passion for', 'شغف بـ'], 'hårvård': ['hair care', 'العناية بالشعر'],
+  'Vi på Salon Shave & Cut brinner för det hantverk som definierar den moderna barberaren. Hos oss möts tradition och nutid – varje klippning är ett mästerverk.': ['At Salon Shave & Cut, we are passionate about the craft that defines the modern barber. Tradition meets the present here – every haircut is a masterpiece.', 'في Salon Shave & Cut نعشق الحرفة التي تميز الحلاق العصري. هنا يلتقي التراث بالحداثة، وكل قصة شعر تحفة فنية.'],
+  'Vår grundare och stylisten Ziad tar emot både dam och herr, och strävar alltid efter att ge dig den bästa upplevelsen i en avslappnad, stilfull atmosfär.': ['Our founder and stylist Ziad welcomes both women and men, always striving to give you the best experience in a relaxed, stylish setting.', 'يستقبل مؤسسنا ومصفف الشعر زياد النساء والرجال، ويسعى دائماً لتقديم أفضل تجربة في أجواء مريحة وأنيقة.'],
+  'Google-betyg': ['Google rating', 'تقييم Google'], 'Recensioner': ['Reviews', 'التقييمات'], 'Instagram-inlägg': ['Instagram posts', 'منشورات Instagram'],
+  'Frisör · Dam & Herr': ['Hair salon · Women & Men', 'صالون شعر · نساء ورجال'],
+  'Klassisk eller modern herrklipp. Vi anpassar alltid stilen efter ditt hår och önskemål.': ['Classic or modern men’s haircut. We always adapt the style to your hair and preferences.', 'قصة شعر رجالية كلاسيكية أو عصرية، مصممة حسب شعرك ورغبتك.'],
+  'Skin fade, mid fade, high fade – vi behärskar alla varianter för ett skarpt resultat.': ['Skin fade, mid fade or high fade – we master every variation for a sharp result.', 'تدرج منخفض أو متوسط أو عالٍ، نتقن جميع الأنواع للحصول على نتيجة دقيقة.'],
+  'Traditionell rakning med rakhyvel för en len och slät upplevelse du aldrig glömmer.': ['Traditional razor shave for a smooth experience you will not forget.', 'حلاقة تقليدية بالموس لنعومة وتجربة لا تُنسى.'],
+  'Form, trimning och skäggvård – vi ger ditt skägg den kontur det förtjänar.': ['Shaping, trimming and beard care – we give your beard the definition it deserves.', 'تحديد وتهذيب وعناية باللحية لتظهر بالشكل الذي تستحقه.'],
+  'Modern damklipp med fokus på form och avslutning. Välkommen oavsett hårlängd.': ['Modern women’s haircut focused on shape and finish. All hair lengths are welcome.', 'قصات نسائية عصرية مع الاهتمام بالشكل واللمسات الأخيرة، لجميع أطوال الشعر.'],
+  'Formning och färg av bryn samt trådning för ett rent och markerat resultat.': ['Eyebrow shaping, tinting and threading for a clean, defined result.', 'تشكيل وصبغ الحواجب وإزالة الشعر بالخيط لنتيجة نظيفة ومحددة.'],
+  'Färgning, utväxt och keratinbehandling med klippning anpassat efter hårlängd.': ['Colour, root touch-ups and keratin treatments with haircuts adapted to hair length.', 'صبغة وجذور وعلاج كيراتين مع قصة تناسب طول الشعر.'],
+  'Klippning och skäggtrimning i ett paket – spara tid och få ett komplett resultat i ett besök.': ['Haircut and beard trim in one package – save time and get a complete result in one visit.', 'قصة شعر وتهذيب لحية في باقة واحدة لنتيجة متكاملة في زيارة واحدة.'],
+  'Populär': ['Popular', 'الأكثر طلباً'], 'Värde': ['Best value', 'قيمة ممتازة'], 'Färgning': ['Colour', 'صبغة'], 'Bryn/Tråd': ['Brows/Threading', 'حواجب/خيط'],
+  'Full prislista': ['Full price list', 'قائمة الأسعار الكاملة'], 'Klippning & barber': ['Haircuts & barbering', 'قص الشعر والحلاقة'],
+  'Damklippning': ['Women’s haircut', 'قص شعر نسائي'], 'Färg & behandling': ['Colour & treatments', 'الصبغة والعلاجات'], 'Övrigt': ['Other', 'أخرى'],
+  'Herrklippning': ['Men’s haircut', 'قص شعر رجالي'], 'Skinfade / Fade': ['Skin fade / Fade', 'تدرج الشعر'],
+  'Herrklippning + formning av skägg': ['Men’s haircut + beard shaping', 'قص شعر رجالي + تحديد اللحية'],
+  'Skägg- och mustaschtrim': ['Beard and moustache trim', 'تهذيب اللحية والشارب'],
+  'Barnklippning (upp till 12 år)': ['Children’s haircut (up to 12 years)', 'قص شعر للأطفال (حتى 12 سنة)'],
+  'Pensionär herr (65+)': ['Senior men (65+)', 'رجال كبار السن (+65)'],
+  'Damklippning kort hår': ['Women’s haircut, short hair', 'قص نسائي، شعر قصير'], 'Damklippning långt hår': ['Women’s haircut, long hair', 'قص نسائي، شعر طويل'],
+  'Tvätt och fön': ['Wash and blow-dry', 'غسيل وتجفيف'], 'Från 250 kr': ['From SEK 250', 'ابتداءً من 250 كرونة'],
+  'Från 300 kr': ['From SEK 300', 'ابتداءً من 300 كرونة'], 'Från 600 kr': ['From SEK 600', 'ابتداءً من 600 كرونة'],
+  'Utväxtfärgning': ['Root touch-up', 'صبغ الجذور'],
+  'Färgning + klippning (kort)': ['Colour + haircut (short)', 'صبغة + قص (قصير)'],
+  'Färgning + klippning (mellanlångt)': ['Colour + haircut (medium)', 'صبغة + قص (متوسط)'],
+  'Färgning + klippning (långt)': ['Colour + haircut (long)', 'صبغة + قص (طويل)'],
+  'Keratinbehandling + klippning (kort)': ['Keratin treatment + haircut (short)', 'علاج كيراتين + قص (قصير)'],
+  'Keratinbehandling + klippning (långt)': ['Keratin treatment + haircut (long)', 'علاج كيراتين + قص (طويل)'],
+  'Färgning av ögonfransar/ögonbryn': ['Eyelash/eyebrow tinting', 'صبغ الرموش/الحواجب'],
+  'Tråd ögonbryn': ['Eyebrow threading', 'تنظيف الحواجب بالخيط'],
+  'Tråd hela ansiktet + ögonbryn': ['Full-face + eyebrow threading', 'تنظيف كامل الوجه والحواجب بالخيط'],
+  'Vaxning näsa och öron': ['Nose and ear waxing', 'إزالة شعر الأنف والأذن بالشمع'],
+  'Från 900 kr': ['From SEK 900', 'ابتداءً من 900 كرونة'], 'Från 1000 kr': ['From SEK 1,000', 'ابتداءً من 1000 كرونة'],
+  'Från 1100 kr': ['From SEK 1,100', 'ابتداءً من 1100 كرونة'], 'Från 1400 kr': ['From SEK 1,400', 'ابتداءً من 1400 كرونة'],
+  'Från 1500 kr': ['From SEK 1,500', 'ابتداءً من 1500 كرونة'],
+  'Följ oss för fler klipp': ['Follow us for more cuts', 'تابعنا للمزيد من القصات'], 'Vårt arbete': ['Our work', 'أعمالنا'],
+  'Bilder': ['Photos', 'الصور'], 'Videor': ['Videos', 'الفيديوهات'], '31 bilder': ['31 photos', '31 صورة'], '6 videor': ['6 videos', '6 فيديوهات'],
+  'Hitta oss': ['Find us', 'اعثر علينا'], 'Kontakt &': ['Contact &', 'الاتصال و'], 'Öppettider': ['Opening hours', 'ساعات العمل'],
+  'Adress': ['Address', 'العنوان'], 'Telefon': ['Phone', 'الهاتف'],
+  'Mån–Fre: 11:00 – 19:00': ['Mon–Fri: 11:00–19:00', 'الاثنين–الجمعة: 11:00–19:00'],
+  'Lördag: 11:00 – 18:00': ['Saturday: 11:00–18:00', 'السبت: 11:00–18:00'], 'Söndag: Stängt': ['Sunday: Closed', 'الأحد: مغلق'],
+  'Öppna i Google Maps': ['Open in Google Maps', 'افتح في خرائط Google'], 'Priser': ['Prices', 'الأسعار'],
+  'Paket': ['Package', 'الباقة'], 'Rakning': ['Shaving', 'الحلاقة'], 'Skäggtrimning': ['Beard trim', 'تهذيب اللحية'],
+  'Bryn och trådning': ['Brows and threading', 'الحواجب والخيط'], 'Färgning och behandling': ['Colour and treatments', 'الصبغة والعلاجات'],
+  'Album': ['Album', 'الألبوم'], 'Webbplats av': ['Website by', 'الموقع من تصميم'],
+  'Stäng': ['Close', 'إغلاق'], 'Öppna meny': ['Open menu', 'فتح القائمة'], 'Ring oss': ['Call us', 'اتصل بنا']
+};
+
+const translateTextNodes = (language) => {
+  const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+    acceptNode: node => node.parentElement?.closest('script, style, option') ? NodeFilter.FILTER_REJECT : NodeFilter.FILTER_ACCEPT
+  });
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  nodes.forEach(node => {
+    if (!originalText.has(node)) originalText.set(node, node.nodeValue);
+    const source = originalText.get(node);
+    const key = source.trim().replace(/\s+/g, ' ');
+    const translated = translations[key]?.[language === 'en' ? 0 : 1];
+    if (language === 'sv' || !translated) node.nodeValue = source;
+    else {
+      const leading = source.match(/^\s*/)?.[0] || '';
+      const trailing = source.match(/\s*$/)?.[0] || '';
+      node.nodeValue = `${leading}${translated}${trailing}`;
+    }
+  });
+};
+
+const setLanguage = (language) => {
+  const selected = ['sv', 'en', 'ar'].includes(language) ? language : 'sv';
+  document.documentElement.lang = selected;
+  document.documentElement.dir = selected === 'ar' ? 'rtl' : 'ltr';
+  translateTextNodes(selected);
+  languageLabel.textContent = selected === 'sv' ? 'Språk' : selected === 'en' ? 'Language' : 'اللغة';
+  languageSelect.value = selected;
+  languageSelect.setAttribute('aria-label', selected === 'sv' ? 'Välj språk' : selected === 'en' ? 'Select language' : 'اختر اللغة');
+  document.title = selected === 'sv' ? 'Salon Shave & Cut – Skarpnäck' : selected === 'en' ? 'Salon Shave & Cut – Skarpnäck Hair Salon' : 'Salon Shave & Cut – صالون شعر في سكارَبناك';
+  try { localStorage.setItem('shavecut-language', selected); } catch (_) {}
+};
+
+let savedLanguage = 'sv';
+try { savedLanguage = localStorage.getItem('shavecut-language') || 'sv'; } catch (_) {}
+if (languageSelect) {
+  languageSelect.addEventListener('change', event => setLanguage(event.target.value));
+  setLanguage(savedLanguage);
+  new MutationObserver(() => translateTextNodes(languageSelect.value)).observe(document.body, { childList: true, subtree: true });
+}
+
 // ---- Lightbox ----
 const lightbox      = document.getElementById('lightbox');
 const lightboxImg   = document.getElementById('lightboxImg');

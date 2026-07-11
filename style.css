@@ -191,6 +191,7 @@ p {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  direction: ltr;
 }
 
 .nav-logo {
@@ -237,6 +238,52 @@ p {
   align-items: center;
   gap: 36px;
   list-style: none;
+}
+
+.language-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 28px;
+  padding: 7px 8px 7px 14px;
+  border: 1px solid rgba(192, 192, 192, 0.3);
+  border-radius: 14px;
+  background: rgba(13, 13, 13, 0.62);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--text-primary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.language-switch select {
+  min-width: 68px;
+  padding: 7px 28px 7px 12px;
+  border: 1px solid rgba(192, 192, 192, 0.35);
+  border-radius: 10px;
+  background: #111;
+  color: var(--gold-light);
+  font: 700 0.9rem/1 var(--font-sans);
+  cursor: pointer;
+  color-scheme: dark;
+}
+
+.language-switch select:focus-visible {
+  outline: 2px solid var(--gold-light);
+  outline-offset: 2px;
+}
+
+html[dir="rtl"] .language-switch {
+  margin-right: 0;
+  margin-left: 28px;
+}
+
+html[dir="rtl"] .contact-info,
+html[dir="rtl"] .about-text,
+html[dir="rtl"] .price-list-card,
+html[dir="rtl"] .service-card {
+  text-align: right;
 }
 
 .nav-link {
@@ -1680,6 +1727,24 @@ p {
 @media (max-width: 680px) {
   .section { padding: 72px 0; }
 
+  .language-switch {
+    margin-left: 14px;
+    margin-right: 0;
+    padding: 5px;
+  }
+
+  .language-switch > span { display: none; }
+
+  .language-switch select {
+    min-width: 62px;
+    padding: 7px 24px 7px 9px;
+  }
+
+  html[dir="rtl"] .language-switch {
+    margin-right: 0;
+    margin-left: 14px;
+  }
+
   .hamburger { display: flex; }
 
   .nav-links {
@@ -1791,9 +1856,17 @@ p {
 }
 
 @media (max-width: 400px) {
+  .nav-container { padding: 0 16px; }
+  .nav-logo .logo-text { font-size: 1rem; }
+  .nav-logo .logo-sub { display: none; }
+
   .gallery-grid {
     grid-template-columns: 1fr;
   }
 
   .gallery-item--wide { grid-column: span 1; }
+}
+
+@media (max-width: 340px) {
+  .nav-logo-text { display: none; }
 }
