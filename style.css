@@ -1728,7 +1728,7 @@ html[dir="rtl"] .service-card {
   .section { padding: 72px 0; }
 
   .nav-container {
-    justify-content: flex-end;
+    justify-content: space-between;
   }
 
   .nav-logo {
@@ -1736,8 +1736,9 @@ html[dir="rtl"] .service-card {
   }
 
   .language-switch {
+    order: 1;
     gap: 0;
-    margin-left: 10px;
+    margin-left: 0;
     margin-right: 0;
     padding: 3px;
     border-radius: 10px;
@@ -1754,10 +1755,13 @@ html[dir="rtl"] .service-card {
 
   html[dir="rtl"] .language-switch {
     margin-right: 0;
-    margin-left: 10px;
+    margin-left: 0;
   }
 
-  .hamburger { display: flex; }
+  .hamburger {
+    display: flex;
+    order: 2;
+  }
 
   .nav-links {
     position: fixed;
