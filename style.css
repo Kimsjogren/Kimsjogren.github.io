@@ -1736,7 +1736,7 @@ html[dir="rtl"] .service-card {
   }
 
   .language-switch {
-    order: 1;
+    order: 2;
     gap: 0;
     margin-left: 0;
     margin-right: 0;
@@ -1760,7 +1760,7 @@ html[dir="rtl"] .service-card {
 
   .hamburger {
     display: flex;
-    order: 2;
+    order: 1;
   }
 
   .nav-links {
