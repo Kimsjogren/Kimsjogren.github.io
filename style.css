@@ -274,18 +274,6 @@ p {
   outline-offset: 2px;
 }
 
-html[dir="rtl"] .language-switch {
-  margin-right: 0;
-  margin-left: 28px;
-}
-
-html[dir="rtl"] .contact-info,
-html[dir="rtl"] .about-text,
-html[dir="rtl"] .price-list-card,
-html[dir="rtl"] .service-card {
-  text-align: right;
-}
-
 .nav-link {
   font-size: 0.82rem;
   font-weight: 500;
@@ -1751,11 +1739,6 @@ html[dir="rtl"] .service-card {
     padding: 6px 20px 6px 8px;
     border-radius: 8px;
     font-size: 0.8rem;
-  }
-
-  html[dir="rtl"] .language-switch {
-    margin-right: 0;
-    margin-left: 0;
   }
 
   .hamburger {

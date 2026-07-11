@@ -87,14 +87,14 @@ const translateTextNodes = (language) => {
 };
 
 const setLanguage = (language) => {
-  const selected = ['sv', 'en', 'ar'].includes(language) ? language : 'sv';
+  const selected = ['sv', 'en'].includes(language) ? language : 'sv';
   document.documentElement.lang = selected;
-  document.documentElement.dir = selected === 'ar' ? 'rtl' : 'ltr';
+  document.documentElement.dir = 'ltr';
   translateTextNodes(selected);
-  languageLabel.textContent = selected === 'sv' ? 'Språk' : selected === 'en' ? 'Language' : 'اللغة';
+  languageLabel.textContent = selected === 'sv' ? 'Språk' : 'Language';
   languageSelect.value = selected;
-  languageSelect.setAttribute('aria-label', selected === 'sv' ? 'Välj språk' : selected === 'en' ? 'Select language' : 'اختر اللغة');
-  document.title = selected === 'sv' ? 'Salon Shave & Cut – Skarpnäck' : selected === 'en' ? 'Salon Shave & Cut – Skarpnäck Hair Salon' : 'Salon Shave & Cut – صالون شعر في سكارَبناك';
+  languageSelect.setAttribute('aria-label', selected === 'sv' ? 'Välj språk' : 'Select language');
+  document.title = selected === 'sv' ? 'Salon Shave & Cut – Skarpnäck' : 'Salon Shave & Cut – Skarpnäck Hair Salon';
   try { localStorage.setItem('shavecut-language', selected); } catch (_) {}
 };
 
